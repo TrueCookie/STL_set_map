@@ -18,7 +18,7 @@ int main() {
 	vector <set <string> > result;
 
 	parseString(srcString, result);
-	void print(vector<set <string> > result);
+	print_vector_set_str(result);
 
 
 	_getch();
@@ -92,21 +92,20 @@ vector<string> div_in_words(const string& str) {
 
 void parseString(const string &srcString, vector <set <string> > &result) {
 	vector <string> words = div_in_words(srcString);
-	set<string> words_set;
-	vector <string>::iterator it;
 	vector <string>::iterator del_it;
 	while (!words.empty()) {	//двигаемся по result
 		string ctrl_word = words[0];		//вырезаем ключевое слово
-		words.erase(words.begin());	//
+		words.erase(words.begin());			//
+		set<string> words_set;
 		words_set.insert(ctrl_word);//вставляем ключевое слово в сет
-		it = words.begin();
-		for (const string& word : words) {	//TODO: использовать обычный for для изменения колва элементов в векторе
-			if (ctrl_word.length() == word.length()) {
-				words_set.insert(word);//вставляем слово в сет
-				del_it = it;
-				it++;
-				words.erase(del_it);//вырезаем найденное слово
-			}else { it++; }
+		vector<string>::iterator it = words.begin();
+		while(it != words.end()) {	//TODO: использовать обычный for для изменения кол-ва элементов в векторе
+			if (ctrl_word.length() == it->length()) {
+				words_set.insert(*it);//вставляем слово в сет
+				//del_it = it;
+				//it++;
+				it = words.erase(it);//вырезаем найденное слово
+			}else { ++it; }
 		}
 		result.push_back(words_set);//вставляем сет в конечный вектор
 	}
